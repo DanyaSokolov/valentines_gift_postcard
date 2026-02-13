@@ -14,11 +14,16 @@
             box-sizing: border-box;
         }
 
+        html {
+            height: 100%;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #ffc5ca 0%, #e9cfff 100%);
+            background-attachment: fixed;
             min-height: 100vh;
-            overflow: hidden;
+            height: 100%;
             position: relative;
         }
 
@@ -30,6 +35,9 @@
             left: 0;
             width: 100%;
             height: 100%;
+            background: linear-gradient(135deg, #ffc5ca 0%, #e9cfff 100%);
+            background-attachment: fixed;
+            overflow: hidden;
         }
 
         .page.active {
@@ -125,7 +133,7 @@
             position: absolute;
             left: 50%;
             top: 50%;
-            transform: translate(calc(-100% - 10px), -50%);
+            transform: translate(calc(-100% - 55px), -50%);
         }
 
         .btn-yes:hover {
@@ -138,7 +146,7 @@
             position: absolute;
             left: 50%;
             top: 50%;
-            transform: translate(10px, -50%);
+            transform: translate(-45px, -50%);
             z-index: 5;
         }
 
@@ -170,8 +178,8 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            overflow: hidden;
-            z-index: -1;
+            overflow: visible;
+            z-index: 100;
         }
 
         .heart-float {
@@ -207,6 +215,14 @@
             .buttons-container {
                 height: 170px;
             }
+
+            .btn-yes {
+                transform: translate(calc(-100% - 45px), -50%);
+            }
+            
+            .btn-no {
+                transform: translate(-35px, -50%);
+            }
         }
 
         /* Телефоны */
@@ -216,11 +232,11 @@
             }
             
             .btn-yes {
-                transform: translate(calc(-100% - 8px), -50%);
+                transform: translate(calc(-100% - 50px), -50%);
             }
             
             .btn-no {
-                transform: translate(8px, -50%);
+                transform: translate(-40px, -50%);
             }
         }
 
@@ -259,7 +275,7 @@
             
             .btn-yes:active {
                 box-shadow: 0 12px 20px rgba(255,107,157,0.4);
-                transform: translate(calc(-100% - 10px), -50%) scale(0.98);
+                transform: translate(calc(-100% - 55px), -50%) scale(0.98);
             }
         }
     </style>
@@ -298,8 +314,8 @@
     </div>
 
     <script>
-        const girlName = "[им]";
-        document.getElementById('question-text').textContent = `${girlName}, у меня кое что есть для тебя, хош узать?`;
+        const girlName = "Саш";
+        document.getElementById('question-text').textContent = `${girlName}, а у меня кое что есть для тебя, хош узнать?`;
 
         let moveCount = 0;
 
@@ -313,7 +329,13 @@
             // Увеличиваем размер кнопки "Да" при каждой попытке нажать "Нет"
             moveCount++;
             const newSize = 1 + (moveCount * 0.15);
-            yesBtn.style.transform = `translate(calc(-100% - 10px), -50%) scale(${newSize})`;
+            
+            // Сохраняем текущий сдвиг влево для центрирования
+            const isMobile = window.innerWidth <= 480;
+            const isSmallMobile = window.innerWidth <= 375;
+            const offset = isSmallMobile ? 45 : (isMobile ? 50 : 55);
+            
+            yesBtn.style.transform = `translate(calc(-100% - ${offset}px), -50%) scale(${newSize})`;
             
             // Получаем размеры кнопки
             const btnRect = btn.getBoundingClientRect();
